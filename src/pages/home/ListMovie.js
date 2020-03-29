@@ -1,23 +1,11 @@
 import React, { Component } from "react";
-import Axios from "axios";
 import Movie from "./../../components/Movie";
 import { connect } from "react-redux";
 import * as action from "./../../redux/action";
 
 class ListMovie extends Component {
   componentDidMount() {
-    Axios({
-      method: "GET",
-      url:
-        "http://movie0706.cybersoft.edu.vn/api/QuanLyPhim/LayDanhSachPhim?maNhom=GP01"
-    })
-      .then(rs => {
-        console.log(rs.data);
-        this.props.getListMovie(rs.data);
-      })
-      .catch(err => {
-        console.log(err);
-      });
+    this.props.getListMovie();
   }
 
   renderHTML = () => {
@@ -37,17 +25,17 @@ class ListMovie extends Component {
 }
 
 const mapStateToProps = state => {
-    return {
-        listMovie: state.movieReducer.listMovie
-    }
-}
-
-const mapDispatchToProps = dispatch => {
   return {
-    getListMovie: listMovie => {
-      dispatch(action.actGetListMovie(listMovie));
+    listMovie: state.movieReducer.listMovie
+  };
+};
+
+const mapDistpatchToProps = dispatch => {
+  return {
+    getListMovie: () => {
+      dispatch(action.actGetListMovieAPI());
     }
   };
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(ListMovie);
+export default connect(mapStateToProps, mapDistpatchToProps)(ListMovie);
